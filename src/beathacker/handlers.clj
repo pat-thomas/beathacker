@@ -1,4 +1,5 @@
-(ns beathacker.handlers)
+(ns beathacker.handlers
+  (:require [beathacker.sounds :as sounds]))
 
 (def event-handler-registry (atom {}))
 
@@ -8,8 +9,8 @@
 
 (register-handler!
  :note
- (fn [data]
-   :nil))
+ (fn [{:keys [sound-type args] :as data}]
+   (sounds/play-sound sound-type args)))
 
 (defn handle-event
   [{:keys [topic data] :as params}]
