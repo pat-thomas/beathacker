@@ -9,5 +9,5 @@
 (comment
   (main)
   (events/fire-event! :event-fired {:type :note
-                                    :val :c3})
+                                    :val  :c3})
 )
