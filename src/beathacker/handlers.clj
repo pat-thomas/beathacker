@@ -9,7 +9,6 @@
 (register-handler!
  :note
  (fn [data]
-   (def data data)
    :nil))
 
 (defn handle-event
