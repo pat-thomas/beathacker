@@ -15,16 +15,14 @@
 (defn take-event-from-channel
   [channel]
   (async/go-loop []
-    (let [val-from-chan (<! channel)]
-      (do (handlers/handle-event val-from-chan)
-          (recur)))))
+    (do (handlers/handle-event (<! channel))
+        (recur))))
 
 (defn take-event-from-channel-for-logging
   [channel]
   (async/go-loop []
-    (let [val-from-chan (<! channel)]
-      (do (println "event observed:" val-from-chan)
-          (recur)))))
+    (do (println "event observed:" (<! channel))
+        (recur))))
 
 (defn init-subscribers!
   []

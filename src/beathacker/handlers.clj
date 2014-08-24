@@ -10,7 +10,8 @@
 (register-handler!
  :note
  (fn [{:keys [sound-type args] :as data}]
-   (sounds-registry/play-sound sound-type args)))
+   (when sound-type
+     (sounds-registry/play-sound sound-type args))))
 
 (defn handle-event
   [{:keys [topic data] :as params}]
