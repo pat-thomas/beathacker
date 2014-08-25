@@ -2,5 +2,7 @@
   (:require [clojure.core.async :as async]))
 
 (defmacro defchan
-  [channel-name]
-  `(def ~channel-name (async/chan)))
+  [channel-name & [buffer-size]]
+  (if buffer-size
+    `(def ~channel-name (async/chan ~buffer-size))
+    `(def ~channel-name (async/chan))))
