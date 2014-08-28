@@ -1,7 +1,9 @@
 (ns beathacker.app-loop
-  (:require [overtone.live      :as overtone]   
-            [clojure.core.async :as async :refer [go <! >!]]
-            [beathacker.util    :refer [defchan]]))
+  (:require [overtone.live      :as overtone :refer [apply-by at]]
+            [clojure.core.async :as async    :refer [go <! >!]]
+            [beathacker.util                 :refer [defchan]]))
+
+(def kick (overtone/sample (overtone/freesound-path 2086)))
 
 (defchan event-channel)
 
@@ -15,7 +17,8 @@
 
 (defn handler
   [channel]
-  (println "calling handler")
+  (kick)
+  (println "in handler")
   (go (when-let [val-from-channel (<! channel)]
         (swap! debug-atom conj val-from-channel)))
   :implement-me)
@@ -23,13 +26,15 @@
 (defn run-app-loop
   [nome cb channel]
   (let [beat (nome)]
-    (overtone/at (nome beat)
-                 (cb channel))
-    (overtone/apply-by (nome (inc beat)) #'run-app-loop nome [])))
+    (at (nome beat)
+        (do (println "calling callback...")
+            (cb channel)))
+    (apply-by (nome (inc beat)) #'run-app-loop nome handler channel [])))
 
 (comment
   (run-app-loop metro
                 handler
                 event-channel)
-  (fire-event! :test-event-2)
+  (do (fire-event! :test-event-2)
+      @debug-atom)
   )
