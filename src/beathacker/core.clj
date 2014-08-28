@@ -1,8 +1,10 @@
 (ns beathacker.core
-  (:require [clojure.tools.nrepl.server :as nrepl]
-            [cider.nrepl                :as cider]
-            [overtone.live              :as overtone]
-            [beathacker.events          :as events]))
+  (:require [clojure.tools.nrepl.server   :as nrepl]
+            [cider.nrepl                  :as cider]
+            [overtone.live                :as overtone]
+            [beathacker.events            :as events]
+            [beathacker.app-loop          :as app-loop]
+            [beathacker.app-loop.handlers :as handlers]))
 
 (def nrepl-server (atom nil))
 
@@ -15,6 +17,10 @@
 (defn main
   []
   (events/init!)
+  (beathacker.app-loop.handlers/init!)
+  (app-loop/run-app-loop! app-loop/metro
+                          app-loop/handler
+                          app-loop/event-channel)
   (start-nrepl-server nrepl-server 4321))
 
 
