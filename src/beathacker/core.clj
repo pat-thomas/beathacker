@@ -2,7 +2,6 @@
   (:require [clojure.tools.nrepl.server   :as nrepl]
             [cider.nrepl                  :as cider]
             [overtone.live                :as overtone]
-            [beathacker.events            :as events]
             [beathacker.app-loop          :as app-loop]
             [beathacker.app-loop.handlers :as handlers]))
 
@@ -16,8 +15,7 @@
 
 (defn main
   []
-  (events/init!)
-  (beathacker.app-loop.handlers/init!)
+  (handlers/init!)
   (app-loop/run-app-loop! app-loop/metro
                           app-loop/handler
                           app-loop/event-channel)
