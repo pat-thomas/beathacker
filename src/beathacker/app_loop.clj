@@ -4,7 +4,7 @@
             [beathacker.app-loop.handlers.registry :refer [trigger-handler]]
             [beathacker.util                       :refer [defchan]]))
 
-(defchan event-channel)
+(defchan event-channel :dropping-buffer 500)
 
 (def metro (overtone/metronome 120))
 
