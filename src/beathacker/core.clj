@@ -2,6 +2,7 @@
   (:require [clojure.tools.nrepl.server   :as nrepl]
             [cider.nrepl                  :as cider]
             [overtone.live                :as overtone]
+            [beathacker.ws                :as ws]
             [beathacker.app-loop          :as app-loop]
             [beathacker.app-loop.handlers :as handlers]))
 
