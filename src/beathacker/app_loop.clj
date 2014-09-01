@@ -20,10 +20,9 @@
 (defn handler
   [channel]
   (go (when-let [{:keys [handler-name data]} (<! channel)]
-        (do (def chicken [handler-name data])
-            (if data
-              (trigger-handler handler-name data)
-              (trigger-handler handler-name)))))
+        (if data
+          (trigger-handler handler-name data)
+          (trigger-handler handler-name))))
   :not-sure-if-this-has-to-return-anything-meaningful)
 
 (defn run-app-loop!
