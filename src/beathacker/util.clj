@@ -10,7 +10,8 @@
   [channel-name & [buffer-type buffer-size]]
   (if (and buffer-type buffer-size)
     (if-let [buffer (get buffer-type->buffer buffer-type)]
-      `(def ~channel-name (async/chan (list ~buffer ~buffer-size)))
+      (let [buffer-expr (list buffer buffer-size)]
+       `(def ~channel-name (async/chan ~buffer-expr)))
       (throw (java.lang.Exception. (format "Error: %s is not a valid core.async buffer type. Valid buffer types are: %s"
                                            (name buffer-type)
                                            (->> buffer-type->buffer
