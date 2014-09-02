@@ -9,6 +9,22 @@
                  [javax.servlet/servlet-api "2.5"]
                  [compojure                 "1.1.8"]
                  [http-kit                  "2.1.16"]
+                 [org.clojure/data.json     "0.2.5"]
                  [overtone                  "0.9.1"]
                  [org.clojure/tools.nrepl   "0.2.3"]
-                 [org.clojure/core.async    "0.1.338.0-5c5012-alpha"]])
+                 [org.clojure/core.async    "0.1.338.0-5c5012-alpha"]
+
+                 [org.clojure/clojurescript "0.0-2311"]
+                 [om                        "0.7.1"]
+                 [om-sync                   "0.1.1"]
+                 [secretary                 "1.2.0"]
+                 [sablono                   "0.2.6"]]
+
+  :plugins [[lein-cljsbuild "1.0.3"]]
+  :source-paths ["src"]
+  :cljsbuild {:builds [{:id           "unagi"
+                        :source-paths ["src/beathacker/app"]
+                        :compiler     {:output-to     "resources/public/js/compiled/beathacker.js"
+                                       :output-dir    "resources/public/js/compiled/out"
+                                       :optimizations :none
+                                       :source-map    true}}]})
