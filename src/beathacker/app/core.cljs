@@ -18,16 +18,21 @@
    :post   "POST"
    :delete "DELETE"})
 
+(def base-url "http://localhost:6020/api/")
+
 (defn json-xhr
   [{:keys [method url data on-complete]}]
   (let [xhr (XhrIo.)]
-    (events/listen xhr goog.net.EventType.COMPLETE
+    (events/listen xhr
+                   goog.net.EventType.COMPLETE
                    (fn [e]
-                     (on-complete (fn [msg]
-                                    (println msg)))))
+                     (on-complete (fn [resp]
+                                    :not-sure-what-to-do-here))))
     (. xhr
-       (send url (meths method) (when data
-                                  (pr-str data))
+       (send (str base-url url)
+             (meths method)
+             (when data
+               (-> data clj->js JSON/stringify))
              #js {"Content-Type" "application/json"}))))
 
 (defn beathacker-app
@@ -40,9 +45,17 @@
    om/IRender
    (render [this]
      (html/html
-      [:div {:id "om-app"} (if (:initialized data)
-                             "Initialized"
-                             "Not initialized")]))))
+      [:div {:id "om-app"}
+       (html/submit-button {:on-click (fn [e]
+                                        (json-xhr {:method      :post
+                                                   :url         "core"
+                                                   :data        {:type :core-api-post}
+                                                   :on-complete (fn [res]
+                                                                  (println res))}))}
+                           "Hello")
+       (if (:initialized data)
+         "Initialized"
+         "Not initialized")]))))
 
 (defn initialize-app!
   []

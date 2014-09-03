@@ -1,12 +1,15 @@
 (ns beathacker.ws
   (:require [org.httpkit.server :as http]
+            [clojure.data.json  :as json]
             [compojure.core     :as compojure]
             [compojure.handler  :as handler]
             [compojure.route    :as route]))
 
 (defn handle-core-api-req
-  [{:keys [params] :as req}]
-  "implement-me\n")
+  [req]
+  (let [body (-> req :body slurp (json/read-str :key-fn keyword))]
+    (def body body)
+    "implement-me\n"))
 
 (compojure/defroutes app-routes
   (compojure/GET  "/ping" [] "pong\n")
