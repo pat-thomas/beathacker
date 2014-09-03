@@ -20,6 +20,7 @@
   (app-loop/run-app-loop! app-loop/metro
                           app-loop/handler
                           app-loop/event-channel)
+  (ws/app)
   (start-nrepl-server nrepl-server 4321))
 
 

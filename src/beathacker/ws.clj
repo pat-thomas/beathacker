@@ -14,7 +14,9 @@
 
 (defn app
   []
-  (http/run-server (handler/site #'app-routes) {:port 8080}))
+  (let [port 8080]
+    (do (println "Web server listening on port" port)
+        (http/run-server (handler/site #'app-routes) {:port port}))))
 
 (comment
   (app)
