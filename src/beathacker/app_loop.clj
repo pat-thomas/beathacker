@@ -1,36 +1,42 @@
 (ns beathacker.app-loop
-  (:require [overtone.live      :as overtone       :refer [apply-by at]]
-            [clojure.core.async :as async          :refer [go <! >!]]
-            [beathacker.app-loop.handlers.registry :refer [trigger-handler]]
-            [beathacker.util                       :refer [defchan]]))
-
-(defchan event-channel :dropping-buffer 500)
+  (:require [overtone.live                         :as overtone :refer [apply-by at]]
+            [clj-utils.maps                                     :refer [make-map]]
+            [beathacker.app-loop.handlers.registry              :refer [trigger-handler]]
+            [beathacker.util                                    :refer [defchan]]))
 
 (def metro (overtone/metronome 120))
+(def event-queue (atom []))
 
 (defn fire-event!
   [handler-name & [data]]
-  (let [base-msg {:handler-name handler-name}
+  (let [base-msg (make-map handler-name)
         msg      (if-not data
                    base-msg
                    (assoc base-msg :data data))]
-    (def msg msg)
-    (go (>! event-channel msg))))
+    (swap! event-queue conj (make-map handler-name data))))
+
+(defn handle-event
+  [evt]
+  (do (swap! event-queue rest)
+      (println evt)))
+
+(defn drain-event-queue
+  [evts]
+  (doseq [evt evts]
+    (handle-event evt)))
 
 (defn handler
-  [channel]
-  (go (when-let [{:keys [handler-name data]} (<! channel)]
-        (if data
-          (trigger-handler handler-name data)
-          (trigger-handler handler-name))))
-  :not-sure-if-this-has-to-return-anything-meaningful)
+  []
+  (do (drain-event-queue @event-queue)
+      :not-sure-if-this-has-to-return-anything-meaningful))
 
 (defn run-app-loop!
-  [nome cb channel]
+  [nome cb]
   (let [beat (nome)]
     (at (nome beat)
-        (cb channel))
-    (apply-by (nome (inc beat)) #'run-app-loop! nome handler channel [])))
+        (do (cb)
+            (println "tick........")))
+    (apply-by (nome (inc beat)) #'run-app-loop! nome handler [])))
 
 (comment
   (run-app-loop! metro

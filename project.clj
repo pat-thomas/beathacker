@@ -13,6 +13,7 @@
                  [overtone                  "0.9.1"]
                  [org.clojure/tools.nrepl   "0.2.3"]
                  [org.clojure/core.async    "0.1.338.0-5c5012-alpha"]
+                 [pat-thomas/clj-utils      "0.1.0"]
 
                  [org.clojure/clojurescript "0.0-2311"]
                  [om                        "0.7.1"]
@@ -22,7 +23,7 @@
 
   :plugins [[lein-cljsbuild "1.0.3"]]
   :source-paths ["src"]
-  :cljsbuild {:builds [{:id           "unagi"
+  :cljsbuild {:builds [{:id           "beathacker"
                         :source-paths ["src/beathacker/app"]
                         :compiler     {:output-to     "resources/public/js/compiled/beathacker.js"
                                        :output-dir    "resources/public/js/compiled/out"
