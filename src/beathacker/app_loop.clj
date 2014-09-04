@@ -1,5 +1,6 @@
 (ns beathacker.app-loop
-  (:require [overtone.live            :as overtone :refer [apply-by at]]
+  (:require [beathacker.handlers      :as handlers]
+            [overtone.live            :as overtone :refer [apply-by at]]
             [clj-utils.maps                        :refer [make-map]]
             [beathacker.app-loop.handlers.registry :refer [trigger-handler]]
             [beathacker.util                       :refer [defchan]]))
@@ -16,9 +17,10 @@
     (swap! event-queue conj (make-map handler-name data))))
 
 (defn handle-event
-  [evt]
+  [{:keys [data] :as evt}]
   (do (swap! event-queue rest)
-      (println evt)))
+      (handlers/handle-sound-event data)
+      (println data)))
 
 (defn drain-event-queue
   [evts]
@@ -34,7 +36,8 @@
   [nome cb]
   (let [beat (nome)]
     (at (nome beat)
-        (do (cb)))
+        (do (println ".")
+            (cb)))
     (apply-by (nome (inc beat)) #'run-app-loop! nome handler [])))
 
 (comment

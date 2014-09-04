@@ -13,9 +13,15 @@
    (when sound-type
      (sounds-registry/play-sound sound-type args))))
 
+(defn handle-sound-event
+  [{:keys [sound-type args] :as data}]
+  (let [sound-type (keyword sound-type)]
+    (when sound-type
+      (sounds-registry/play-sound sound-type args))))
+
 (defn handle-event
   [{:keys [topic data] :as params}]
-  (when-let [handler (get @event-handler-registry (:type data))]
+  (when-let [handler (get @event-handler-registry (keyword (:type data)))]
     (handler data)))
 
 (comment

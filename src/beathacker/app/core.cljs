@@ -49,7 +49,8 @@
                                         (json-xhr {:method      :post
                                                    :url         "core"
                                                    :data        {:handler-name :sin
-                                                                 :data         :not-sure-what-to-put-here}
+                                                                 :data         {:type       :note
+                                                                                :sound-type :sin}}
                                                    :on-complete (fn [res]
                                                                   (println :wat)
                                                                   (println res))}))}
