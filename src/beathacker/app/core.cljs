@@ -26,8 +26,7 @@
     (events/listen xhr
                    goog.net.EventType.COMPLETE
                    (fn [e]
-                     (on-complete (fn [resp]
-                                    :not-sure-what-to-do-here))))
+                     (on-complete e)))
     (. xhr
        (send (str base-url url)
              (meths method)
@@ -49,8 +48,10 @@
        (html/submit-button {:on-click (fn [e]
                                         (json-xhr {:method      :post
                                                    :url         "core"
-                                                   :data        {:type :core-api-post}
+                                                   :data        {:handler-name :sin
+                                                                 :data         :not-sure-what-to-put-here}
                                                    :on-complete (fn [res]
+                                                                  (println :wat)
                                                                   (println res))}))}
                            "Hello")
        (if (:initialized data)

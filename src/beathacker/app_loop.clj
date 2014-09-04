@@ -1,8 +1,8 @@
 (ns beathacker.app-loop
-  (:require [overtone.live                         :as overtone :refer [apply-by at]]
-            [clj-utils.maps                                     :refer [make-map]]
-            [beathacker.app-loop.handlers.registry              :refer [trigger-handler]]
-            [beathacker.util                                    :refer [defchan]]))
+  (:require [overtone.live            :as overtone :refer [apply-by at]]
+            [clj-utils.maps                        :refer [make-map]]
+            [beathacker.app-loop.handlers.registry :refer [trigger-handler]]
+            [beathacker.util                       :refer [defchan]]))
 
 (def metro (overtone/metronome 120))
 (def event-queue (atom []))
@@ -34,8 +34,7 @@
   [nome cb]
   (let [beat (nome)]
     (at (nome beat)
-        (do (cb)
-            (println "tick........")))
+        (do (cb)))
     (apply-by (nome (inc beat)) #'run-app-loop! nome handler [])))
 
 (comment

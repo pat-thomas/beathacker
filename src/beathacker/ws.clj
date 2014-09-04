@@ -1,15 +1,19 @@
 (ns beathacker.ws
-  (:require [org.httpkit.server :as http]
-            [clojure.data.json  :as json]
-            [compojure.core     :as compojure]
-            [compojure.handler  :as handler]
-            [compojure.route    :as route]))
+  (:require [org.httpkit.server  :as http]
+            [clojure.data.json   :as json]
+            [beathacker.app-loop :as app-loop]
+            [compojure.core      :as compojure]
+            [compojure.handler   :as handler]
+            [compojure.route     :as route]))
 
 (defn handle-core-api-req
   [req]
   (let [body (-> req :body slurp (json/read-str :key-fn keyword))]
-    (def body body)
-    "implement-me\n"))
+    (if-let [{:keys [handler-name data]} body]
+      (do (app-loop/fire-event! handler-name data)
+          (json/json-str {:status "OK"
+                          :msg    "event-fired"}))
+      (json/json-str {:status "InvalidRequest"}))))
 
 (compojure/defroutes app-routes
   (compojure/GET  "/ping" [] "pong\n")
