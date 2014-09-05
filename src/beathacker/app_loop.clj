@@ -1,8 +1,8 @@
 (ns beathacker.app-loop
-  (:require [beathacker.handlers :as handlers]
-            [overtone.live       :as overtone :refer [apply-by at]]
-            [clj-utils.maps                   :refer [make-map]]
-            [beathacker.util                  :refer [defchan]]))
+  (:require [beathacker.sounds :as sounds]
+            [overtone.live     :as overtone :refer [apply-by at]]
+            [clj-utils.maps                 :refer [make-map]]
+            [beathacker.util                :refer [defchan]]))
 
 (def metro (overtone/metronome 120))
 (def event-queue (atom []))
@@ -18,7 +18,7 @@
 (defn handle-event
   [{:keys [data] :as evt}]
   (do (swap! event-queue rest)
-      (handlers/handle-sound-event data)
+      (sounds/handle-sound-event data)
       (println data)))
 
 (defn drain-event-queue

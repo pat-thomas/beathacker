@@ -6,6 +6,12 @@
   {:register-fn-alias register-sound!
    :trigger-fn-alias  trigger-sound!})
 
+(defn handle-sound-event
+  [{:keys [sound-type args] :as data}]
+  (let [sound-type (keyword sound-type)]
+    (when sound-type
+      (play-sound sound-type args))))
+
 (defn play-sound
   [sound-type & args]
   (let [args (if (or (vector? args)
