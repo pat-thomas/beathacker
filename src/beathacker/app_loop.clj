@@ -35,8 +35,7 @@
   [nome cb]
   (let [beat (nome)]
     (at (nome beat)
-        (do (println ".")
-            (cb)))
+        (cb))
     (apply-by (nome (inc beat)) #'run-app-loop! nome handler [])))
 
 (comment
