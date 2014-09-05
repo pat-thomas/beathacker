@@ -3,8 +3,7 @@
             [cider.nrepl                  :as cider]
             [overtone.live                :as overtone]
             [beathacker.ws                :as ws]
-            [beathacker.app-loop          :as app-loop]
-            [beathacker.app-loop.handlers :as handlers]))
+            [beathacker.app-loop          :as app-loop]))
 
 (def nrepl-server (atom nil))
 
@@ -16,7 +15,6 @@
 
 (defn main
   []
-  (handlers/init!)
   (app-loop/run-app-loop! app-loop/metro
                           app-loop/handler)
   (ws/app)
