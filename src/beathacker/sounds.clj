@@ -31,5 +31,6 @@
      (overtone/sin-osc freq)
      vol))
 
-(register-sound! :sin  sin-wave)
-(register-sound! :kick kick)
+(register-sounds!
+ :sin  sin-wave
+ :kick kick)
