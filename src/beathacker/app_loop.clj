@@ -8,18 +8,20 @@
 (def event-queue (atom []))
 
 (defn fire-event!
-  [handler-name & [data]]
-  (let [base-msg (make-map handler-name)
+  [sound-type & [data]]
+  (let [base-msg (make-map sound-type)
         msg      (if-not data
                    base-msg
                    (assoc base-msg :data data))]
-    (swap! event-queue conj (make-map handler-name data))))
+    (swap! event-queue conj msg)))
 
 (defn handle-event
-  [{:keys [handler-name data] :as evt}]
+  [{:keys [sound-type data] :as evt}]
   (do (swap! event-queue rest)
-      (sounds/handle-sound-event data)
-      (println (format "%s -> %s" handler-name data))))
+      (sounds/handle-sound-event evt)
+      (println (if data
+                 (format "%s -> %s" sound-type data)
+                 (format "%s -> {}" sound-type)))))
 
 (defn drain-event-queue
   [evts]
@@ -42,5 +44,5 @@
   (run-app-loop! metro
                  handler
                  event-channel)
-  (fire-event! :kick {:sound-type :kick})
+  (fire-event! :kick)
   )
