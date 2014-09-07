@@ -5,7 +5,7 @@
             :url "http://www.eclipse.org/legal/epl-v10.html"}
   :main beathacker.core/main
   :dependencies [[org.clojure/clojure       "1.6.0"]
-                 [memento                   "0.2.0"]
+                 [memento                   "0.2.1"]
                  [javax.servlet/servlet-api "2.5"]
                  [compojure                 "1.1.8"]
                  [http-kit                  "2.1.16"]
