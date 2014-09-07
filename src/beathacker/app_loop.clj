@@ -16,10 +16,10 @@
     (swap! event-queue conj (make-map handler-name data))))
 
 (defn handle-event
-  [{:keys [data] :as evt}]
+  [{:keys [handler-name data] :as evt}]
   (do (swap! event-queue rest)
       (sounds/handle-sound-event data)
-      (println data)))
+      (println (format "%s -> %s" handler-name data))))
 
 (defn drain-event-queue
   [evts]
@@ -42,5 +42,5 @@
   (run-app-loop! metro
                  handler
                  event-channel)
-  (fire-event! :kick)
+  (fire-event! :kick {:sound-type :kick})
   )
