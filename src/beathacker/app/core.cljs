@@ -4,6 +4,7 @@
             [om.core      :as om   :include-macros true]
             [om.core      :as dom  :include-macros true]
             [sablono.core :as html :include-macros true])
+  (:require-macros [om-utils.core :refer [defcomponent]])
   (:import [goog.net XhrIo]
            goog.net.EventType
            [goog.events EventType]))
@@ -34,30 +35,23 @@
                (-> data clj->js JSON/stringify))
              #js {"Content-Type" "application/json"}))))
 
-(defn beathacker-app
-  [data owner opts]
-  (reify
-    om/IDisplayName
-    (display-name [_]
-      (or (:react-name opts) "App"))
-
-   om/IRender
-   (render [this]
-     (html/html
-      [:div {:id "om-app"}
-       (html/submit-button {:on-click (fn [e]
-                                        (json-xhr {:method      :post
-                                                   :url         "core"
-                                                   :data        {:handler-name :sin
-                                                                 :data         {:type       :note
-                                                                                :sound-type :sin}}
-                                                   :on-complete (fn [res]
-                                                                  (println :wat)
-                                                                  (println res))}))}
-                           "Hello")
-       (if (:initialized data)
-         "Initialized"
-         "Not initialized")]))))
+(defcomponent beathacker-app
+  (render
+   (html/html
+    [:div {:id "om-app"}
+     (html/submit-button {:on-click (fn [e]
+                                      (json-xhr {:method      :post
+                                                 :url         "core"
+                                                 :data        {:handler-name :sin
+                                                               :data         {:type       :note
+                                                                              :sound-type :sin}}
+                                                 :on-complete (fn [res]
+                                                                (println :wat)
+                                                                (println res))}))}
+                         "Hello")
+     (if (:initialized data)
+       "Initialized"
+       "Not initialized")])))
 
 (defn initialize-app!
   []

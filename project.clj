@@ -18,6 +18,7 @@
                  [org.clojure/clojurescript "0.0-2311"]
                  [om                        "0.7.1"]
                  [om-sync                   "0.1.1"]
+                 [om-utils                  "0.1.0"]
                  [secretary                 "1.2.0"]
                  [sablono                   "0.2.6"]]
 
