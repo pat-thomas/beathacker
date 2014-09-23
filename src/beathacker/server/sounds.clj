@@ -1,4 +1,4 @@
-(ns beathacker.sounds
+(ns beathacker.server.sounds
   (:require [overtone.live :as overtone :refer [definst]]
             [memento.core               :refer [defregistry]]))
 

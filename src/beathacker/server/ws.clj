@@ -1,10 +1,10 @@
-(ns beathacker.ws
-  (:require [org.httpkit.server  :as http]
-            [clojure.data.json   :as json]
-            [beathacker.app-loop :as app-loop]
-            [compojure.core      :as compojure]
-            [compojure.handler   :as handler]
-            [compojure.route     :as route]))
+(ns beathacker.server.ws
+  (:require [org.httpkit.server         :as http]
+            [clojure.data.json          :as json]
+            [beathacker.server.app-loop :as app-loop]
+            [compojure.core             :as compojure]
+            [compojure.handler          :as handler]
+            [compojure.route            :as route]))
 
 (defn handle-core-api-req
   [req]

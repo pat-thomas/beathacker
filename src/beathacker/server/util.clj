@@ -1,4 +1,4 @@
-(ns beathacker.util
+(ns beathacker.server.util
   (:require [clojure.core.async :as async]))
 
 (def buffer-type->buffer

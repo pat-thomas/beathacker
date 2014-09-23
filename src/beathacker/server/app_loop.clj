@@ -1,8 +1,8 @@
-(ns beathacker.app-loop
-  (:require [beathacker.sounds :as sounds]
-            [overtone.live     :as overtone :refer [apply-by at]]
-            [clj-utils.maps                 :refer [make-map]]
-            [beathacker.util                :refer [defchan]]))
+(ns beathacker.server.app-loop
+  (:require [beathacker.server.sounds :as sounds]
+            [overtone.live            :as overtone :refer [apply-by at]]
+            [clj-utils.maps                        :refer [make-map]]
+            [beathacker.server.util                :refer [defchan]]))
 
 (def metro (overtone/metronome 120))
 (def event-queue (atom []))

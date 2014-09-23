@@ -3,7 +3,7 @@
   :url "http://example.com/FIXME"
   :license {:name "Eclipse Public License"
             :url "http://www.eclipse.org/legal/epl-v10.html"}
-  :main beathacker.core/main
+  :main beathacker.server.core/main
   :dependencies [[org.clojure/clojure       "1.6.0"]
                  [memento                   "0.2.1"]
                  [javax.servlet/servlet-api "2.5"]
