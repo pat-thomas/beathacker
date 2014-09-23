@@ -19,8 +19,7 @@
                  [om                        "0.7.1"]
                  [om-sync                   "0.1.1"]
                  [om-utils                  "0.1.0"]
-                 [secretary                 "1.2.0"]
-                 [sablono                   "0.2.6"]]
+                 [secretary                 "1.2.0"]]
 
   :plugins [[lein-cljsbuild "1.0.3"]]
   :source-paths ["src"]
