@@ -26,13 +26,19 @@
 
 (defcomponent rhythm-box
   (render
+   (dom/div #js {:className "rhythm-box"} (str "alright... " (:number opts)))))
+
+(defcomponent rhythm-box-container
+  (render
    (dom/div
-    #js {:id "rhythm-box"}
+    #js {:id "rhythm-box-container"}
     (dom/select #js {:onChange (fn [e]
                                  (om/update! data [:selected-option] (evt->value e)))}
                 (mapv build-option (map str (range 1 9))))
     (when-let [selected-option (:selected-option data)]
-      (dom/div nil selected-option)))))
+      (mapv (fn [n]
+              (om/build rhythm-box data {:opts {:number n}}))
+            (map inc (range 0 selected-option)))))))
 
 (defcomponent beathacker-app
   (render
@@ -42,7 +48,7 @@
                 "Hello")
     (dom/button #js {:onClick api/handle-click-again}
                 "Hello again")
-    (om/build rhythm-box (get-in data [:components :rhythm-box]))
+    (om/build rhythm-box-container (get-in data [:components :rhythm-box]))
     (dom/div (if (:initialized data)
                "Initialized"
                "Not initialized")))))
