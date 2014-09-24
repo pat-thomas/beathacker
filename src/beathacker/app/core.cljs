@@ -3,7 +3,6 @@
             [goog.events        :as events]
             [om.core            :as om   :include-macros true]
             [om.dom             :as dom  :include-macros true]
-            [sablono.core       :as html :include-macros true]
             [beathacker.app.xhr :refer [do-xhr]])
   (:require-macros [om-utils.core :refer [defcomponent]])
   (:import [goog.net XhrIo]
@@ -22,8 +21,20 @@
                          :data         {:type       :note
                                         :sound-type :sin}}
            :on-complete (fn [res]
-                          (println :wat)
-                          (println res))}))
+                          (do (println :wat)
+                              (println res)))}))
+
+(defn handle-click-again
+  [e]
+  (do-xhr {:method      :post
+           :url         "core"
+           :data        {:handler-name :kick
+                         :data         {:type       :note
+                                        :sound-type :sin
+                                        :wait       2}}
+           :on-complete (fn [res]
+                          (do (println :huh)
+                              (println res)))}))
 
 (defcomponent beathacker-app
   (render
@@ -31,6 +42,8 @@
     #js {:id "om-app"}
     (dom/button #js {:onClick handle-click}
                 "Hello")
+    (dom/button #js {:onClick handle-click-again}
+                "Hello again")
     (dom/div (if (:initialized data)
                "Initialized"
                "Not initialized")))))
