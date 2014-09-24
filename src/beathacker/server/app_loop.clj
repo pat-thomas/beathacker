@@ -17,16 +17,35 @@
 
 (defn handle-event
   [{:keys [sound-type data] :as evt}]
-  (do (swap! event-queue rest)
-      (sounds/handle-sound-event evt)
+  (do (sounds/handle-sound-event evt)
       (println (if data
                  (format "%s -> %s" sound-type data)
                  (format "%s -> {}" sound-type)))))
 
+(defn preprocess-event-queue
+  [evts]
+  (let [handle-wait (fn [evt]
+                      (if-let [wait (get-in evt [:data :wait])]
+                        (if (> wait 0)
+                          (update-in evt [:data :wait] dec)
+                          (update-in evt [:data] dissoc :wait))
+                        evt))]
+    (map handle-wait evts)))
+
+(defn postprocess-event-queue
+  [evts]
+  :implement-me
+  (let [event-is-pending? (fn [evt]
+                            (get-in evt [:data :wait]))]
+    (filter event-is-pending? evts)))
+
 (defn drain-event-queue
   [evts]
-  (doseq [evt evts]
-    (handle-event evt)))
+  (let [preprocessed-event-queue  (preprocess-event-queue evts)
+        postprocessed-event-queue (postprocess-event-queue preprocessed-event-queue)]
+    (do (doseq [evt preprocessed-event-queue]
+          (handle-event evt))
+        (reset! event-queue postprocessed-event-queue))))
 
 (defn handler
   []
