@@ -11,7 +11,28 @@
 
 (enable-console-print!)
 
-(def app-state (atom {:initialized false}))
+(def app-state
+  (atom
+   {:initialized false
+    :components {:rhythm-box {}}}))
+
+(defn build-option
+  [value]
+  (dom/option #js {:value value} value))
+
+(defn evt->value
+  [evt]
+  (.-value (.-target evt)))
+
+(defcomponent rhythm-box
+  (render
+   (dom/div
+    #js {:id "rhythm-box"}
+    (dom/select #js {:onChange (fn [e]
+                                 (om/update! data [:selected-option] (evt->value e)))}
+                (mapv build-option (map str (range 1 9))))
+    (when-let [selected-option (:selected-option data)]
+      (dom/div nil selected-option)))))
 
 (defcomponent beathacker-app
   (render
@@ -21,6 +42,7 @@
                 "Hello")
     (dom/button #js {:onClick api/handle-click-again}
                 "Hello again")
+    (om/build rhythm-box (get-in data [:components :rhythm-box]))
     (dom/div (if (:initialized data)
                "Initialized"
                "Not initialized")))))
