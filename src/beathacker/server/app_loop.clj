@@ -34,7 +34,6 @@
 
 (defn postprocess-event-queue
   [evts]
-  :implement-me
   (let [event-is-pending? (fn [evt]
                             (get-in evt [:data :wait]))]
     (filter event-is-pending? evts)))
