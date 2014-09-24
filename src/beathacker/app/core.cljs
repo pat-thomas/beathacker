@@ -30,7 +30,7 @@
            :url         "core"
            :data        {:handler-name :kick
                          :data         {:type       :note
-                                        :sound-type :sin
+                                        :sound-type :kick
                                         :wait       2}}
            :on-complete (fn [res]
                           (do (println :huh)
