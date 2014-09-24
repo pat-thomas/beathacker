@@ -4,10 +4,7 @@
             [om.core            :as om   :include-macros true]
             [om.dom             :as dom  :include-macros true]
             [beathacker.app.api :as api])
-  (:require-macros [om-utils.core :refer [defcomponent]])
-  (:import [goog.net XhrIo]
-           goog.net.EventType
-           [goog.events EventType]))
+  (:require-macros [om-utils.core :refer [defcomponent]]))
 
 (enable-console-print!)
 
