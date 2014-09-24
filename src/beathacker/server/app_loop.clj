@@ -17,10 +17,13 @@
 
 (defn handle-event
   [{:keys [sound-type data] :as evt}]
-  (do (sounds/handle-sound-event evt)
-      (println (if data
-                 (format "%s -> %s" sound-type data)
-                 (format "%s -> {}" sound-type)))))
+  (let [event-is-pending? (fn [e]
+                            (get-in e [:data :wait]))]
+    (when-not (event-is-pending? evt)
+      (do (sounds/handle-sound-event evt)
+          (println (if data
+                     (format "%s -> %s" sound-type data)
+                     (format "%s -> {}" sound-type)))))))
 
 (defn preprocess-event-queue
   [evts]
