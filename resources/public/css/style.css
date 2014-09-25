@@ -2,7 +2,20 @@
 		margin-top: 2em;
 }
 
+.rhythm-box-row {
+		float: left;
+}
+
 .rhythm-box {
 		background-color: #dadada;
-		margin: 5px;
+		margin:           5px;
+		padding:          4px;
+		border-radius:    8px;
+		height:           15px;
+		width:            15px;
+		text-align:       center;
+}
+
+.rhythm-box:hover {
+		background-color: #999;
 }

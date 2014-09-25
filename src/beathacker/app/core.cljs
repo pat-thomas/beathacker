@@ -1,41 +1,14 @@
 (ns beathacker.app.core
-  (:require [goog.dom           :as gdom]
-            [goog.events        :as events]
-            [om.core            :as om   :include-macros true]
-            [om.dom             :as dom  :include-macros true]
-            [beathacker.app.api :as api])
+  (:require [goog.dom                             :as gdom]
+            [beathacker.app.api                   :as api]
+            [beathacker.app.state                 :as state]
+            [beathacker.app.helpers               :as helpers]
+            [beathacker.app.components.rhythm-box :as rhythm-box]
+            [om.core                              :as om   :include-macros true]
+            [om.dom                               :as dom  :include-macros true])
   (:require-macros [om-utils.core :refer [defcomponent]]))
 
 (enable-console-print!)
-
-(def app-state
-  (atom
-   {:initialized false
-    :components {:rhythm-box {}}}))
-
-(defn build-option
-  [value]
-  (dom/option #js {:value value} value))
-
-(defn evt->value
-  [evt]
-  (.-value (.-target evt)))
-
-(defcomponent rhythm-box
-  (render
-   (dom/div #js {:className "rhythm-box"} (str "alright... " (:number opts)))))
-
-(defcomponent rhythm-box-container
-  (render
-   (dom/div
-    #js {:id "rhythm-box-container"}
-    (dom/select #js {:onChange (fn [e]
-                                 (om/update! data [:selected-option] (evt->value e)))}
-                (mapv build-option (map str (range 1 9))))
-    (when-let [selected-option (:selected-option data)]
-      (mapv (fn [n]
-              (om/build rhythm-box data {:opts {:number n}}))
-            (map inc (range 0 selected-option)))))))
 
 (defcomponent beathacker-app
   (render
@@ -45,7 +18,7 @@
                 "Hello")
     (dom/button #js {:onClick api/handle-click-again}
                 "Hello again")
-    (om/build rhythm-box-container (get-in data [:components :rhythm-box]))
+    (om/build rhythm-box/rhythm-box-container (get-in data [:components :rhythm-box]))
     (dom/div (if (:initialized data)
                "Initialized"
                "Not initialized")))))
@@ -54,7 +27,7 @@
   []
   (let [target (gdom/getElement "app-container")]
     (om/root beathacker-app
-             app-state
+             state/app-state
              {:target target})))
 
 (initialize-app!)
