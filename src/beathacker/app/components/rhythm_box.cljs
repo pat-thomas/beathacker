@@ -1,6 +1,6 @@
 (ns beathacker.app.components.rhythm-box
-  (:require [om.dom  :as dom :include-macros true]
-            [om.core :as om   :include-macros true]
+  (:require [om.dom                 :as dom :include-macros true]
+            [om.core                :as om  :include-macros true]
             [beathacker.app.helpers :as helpers])
   (:require-macros [om-utils.core :refer [defcomponent]]))
 
@@ -13,7 +13,9 @@
 
 (defcomponent rhythm-box-column
   (render
-   (dom/div #js {:className "rhythm-box-column"}
+   (dom/div #js {:className "rhythm-box-column"
+                 :onMouseOver (fn [e]
+                                (println (helpers/evt->value e)))}
             (om/build rhythm-box data))))
 
 (defcomponent rhythm-box-row
@@ -21,18 +23,6 @@
    (dom/div #js {:className "rhythm-box-row"}
             (apply dom/div nil
                    (mapv #(om/build rhythm-box-column data)
-                         (range (get-in data [:selected-option :columns])))))))
-
-(defcomponent rhythm-box-reflection-column
-  (render
-   (dom/div #js {:className "rhythm-box-column"}
-            (om/build rhythm-box data))))
-
-(defcomponent rhythm-box-reflection-row
-  (render
-   (dom/div #js {:className "rhythm-box-row reflection"}
-            (apply dom/div nil
-                   (mapv #(om/build rhythm-box-reflection-column data)
                          (range (get-in data [:selected-option :columns])))))))
 
 (defcomponent column-select-list
@@ -58,6 +48,4 @@
                      (om/build row-select-list data)
                      (om/build column-select-list data))
             (dom/div #js {:id "rhythm-box-main"}
-                     (apply dom/div nil (mapv #(om/build rhythm-box-row data) (range (get-in data [:selected-option :rows])))))
-            #_(dom/div #js {:id "rhythm-box-reflection"}
-                     (apply dom/div nil (mapv #(om/build rhythm-box-reflection-row data) (range (get-in data [:selected-option :rows]))))))))
+                     (apply dom/div nil (mapv #(om/build rhythm-box-row data) (range (get-in data [:selected-option :rows]))))))))
