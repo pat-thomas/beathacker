@@ -16,6 +16,14 @@
 		text-align:       center;
 }
 
+#rhythm-box-main {
+		/* border: 1px solid red; */
+}
+
+#rhythm-box-reflection {
+		/* border: 1px solid blue; */
+}
+
 .rhythm-box:hover {
 		background-color: #999;
 }
