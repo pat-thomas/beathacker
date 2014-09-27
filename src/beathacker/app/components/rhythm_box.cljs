@@ -32,7 +32,7 @@
                                     (and (= row-num    (:row click-data-map))
                                          (= column-num (:column click-data-map))))
                                   (distinct (:clicked data)))]
-    (if (not-empty matching-results)
+    (if (get-in data [:clicked [row-num column-num]])
       "rhythm-box clicked"
       "rhythm-box")))
 
@@ -42,10 +42,9 @@
                  :data-row-num    (:data-row-num opts)
                  :data-column-num (:data-column-num opts)
                  :onClick         (fn [e]
-                                    (let [data-map {:row    (js/parseInt (helpers/data (.-target e) "row-num"))
-                                                    :column (js/parseInt (helpers/data (.-target e) "column-num"))}]
-                                      ;;NB> Change this to assoc/dissoc [row, column] in :clicked map
-                                      (om/transact! data :clicked #(conj % data-map))))})))
+                                    (let [clicked-row    (js/parseInt (helpers/data (.-target e) "row-num"))
+                                          clicked-column (js/parseInt (helpers/data (.-target e) "column-num"))]
+                                      (om/transact! data [:clicked [clicked-row clicked-column]] #(not %))))})))
 
 (defcomponent rhythm-box-column
   (render
