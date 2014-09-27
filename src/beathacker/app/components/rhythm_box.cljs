@@ -25,10 +25,18 @@
                                          (om/update! data [:selected-option :rows] (helpers/evt->value e)))}
                         (mapv build-option (map str (range 1 9)))))))
 
+(defcomponent repetitions-select-list
+  (render
+   (dom/div nil
+            "Repetitions"
+            (dom/select #js {:onChange (fn [e]
+                                         (om/update! data [:selected-option :repetitions] (helpers/evt->value e)))}
+                        (mapv build-option (map str (range 1 5)))))))
+
 (defcomponent send-to-server-button
   (render
    (dom/button #js {:id "send-to-server-button"
-                    :onClick #(-> data deref :clicked api/send-rhythm-to-server)}
+                    :onClick #(-> data deref api/send-rhythm-to-server)}
                "Play pattern.")))
 
 (defn classname-for-rhythm-box
@@ -72,8 +80,9 @@
    (dom/div #js {:id "rhythm-box-container"}
             (om/build send-to-server-button data)
             (dom/div #js {:id "select-list-container"}
-                     (om/build row-select-list data)
-                     (om/build column-select-list data))
+                     (om/build row-select-list         data)
+                     (om/build column-select-list      data)
+                     (om/build repetitions-select-list data))
             (dom/div #js {:id "rhythm-box-main"}
                      (apply dom/div nil (mapv #(om/build rhythm-box-row data {:opts {:data-row-num %}})
                                               (range (get-in data [:selected-option :rows]))))))))

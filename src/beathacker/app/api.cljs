@@ -26,12 +26,15 @@
                               (println res)))}))
 
 (defn send-rhythm-to-server
-  [clicked-data]
-  (let [rhythm-data (rhythm-grid/clicked-data->rhythm-data clicked-data)]
-    (when-not (empty? rhythm-data)
-      (do (println "sending to server:" rhythm-data)
-          (do-xhr {:method      :post
-                   :url         "rhythm-seq"
-                   :data        rhythm-data
-                   :on-complete (fn [res]
-                                  (println res))})))))
+  [data]
+  (let [base-data {:rhythm-data (rhythm-grid/clicked-data->rhythm-data (:clicked data))
+                   :num-columns (js/parseInt (get-in data [:selected-option :rows]))}
+        req-data  (if-let [repetitions (js/parseInt (get-in data [:selected-option :repetitions]))]
+                    (assoc base-data :repetitions repetitions)
+                    base-data)]
+    (when-not (empty? (:rhythm-data req-data))
+      (do-xhr {:method      :post
+               :url         "rhythm-seq"
+               :data        req-data
+               :on-complete (fn [res]
+                              (println res))}))))

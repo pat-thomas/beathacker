@@ -19,8 +19,8 @@
 (defn handle-rhythm-seq-api-req
   [req]
   (let [body (-> req :body slurp (json/read-str :key-fn keyword))]
-    (do (doseq [data body]
-          (apply app-loop/fire-event! (rhythm-seq/data->evt data)))
+    (do (doseq [data (rhythm-seq/process body)]
+          (apply app-loop/fire-event! data))
         (json/json-str {:status "ImplementMe"}))))
 
 (compojure/defroutes app-routes
