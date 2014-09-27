@@ -9,8 +9,4 @@
   (render
    (dom/div
     #js {:id "beathacker-app"}
-    (dom/button #js {:onClick api/handle-click}
-                "Hello")
-    (dom/button #js {:onClick api/handle-click-again}
-                "Hello again")
     (om/build rhythm-box/rhythm-box-container (get-in data [:components :rhythm-box])))))
