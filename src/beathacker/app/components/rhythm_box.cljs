@@ -24,14 +24,28 @@
                                          (om/update! data [:selected-option :rows] (helpers/evt->value e)))}
                         (mapv build-option (map str (range 1 9)))))))
 
+(defn classname-for-rhythm-box
+  [data opts]
+  (let [row-num           (:data-row-num opts)
+        column-num        (:data-column-num opts)
+        matching-results  (filter (fn [click-data-map]
+                                    (and (= row-num    (:row click-data-map))
+                                         (= column-num (:column click-data-map))))
+                                  (distinct (:clicked data)))]
+    (if (not-empty matching-results)
+      "rhythm-box clicked"
+      "rhythm-box")))
+
 (defcomponent rhythm-box
   (render
-   (dom/div #js {:className       "rhythm-box"
+   (dom/div #js {:className       (classname-for-rhythm-box data opts)
                  :data-row-num    (:data-row-num opts)
                  :data-column-num (:data-column-num opts)
                  :onClick         (fn [e]
-                                    (om/transact! data :clicked conj {:row    (helpers/data (.-target e) "row-num")
-                                                                      :column (helpers/data (.-target e) "column-num")}))})))
+                                    (let [data-map {:row    (js/parseInt (helpers/data (.-target e) "row-num"))
+                                                    :column (js/parseInt (helpers/data (.-target e) "column-num"))}]
+                                      ;;NB> Change this to assoc/dissoc [row, column] in :clicked map
+                                      (om/transact! data :clicked #(conj % data-map))))})))
 
 (defcomponent rhythm-box-column
   (render

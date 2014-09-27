@@ -5,5 +5,5 @@
    {:initialized false
     :components  {:rhythm-box {:selected-option {:columns 1
                                                  :rows    1}
-                               :clicked []}}}))
+                               :clicked         []}}}))
 
