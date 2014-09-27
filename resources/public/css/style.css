@@ -1,13 +1,5 @@
 #rhythm-box-container {
-		margin-top: 2em;
 		height: 17em;
-		/* border: 2px solid red; */
-}
-
-#rhythm-box-reflection-container {
-		margin-top: 2em;
-		height: 17em;
-		/* border: 2px solid blue; */
 }
 
 .rhythm-box {
@@ -24,20 +16,6 @@
   background-color: #555;
 }
 
-#rhythm-box-main .rhythm-box {
-
-}
-
-#rhythm-box-reflection .rhythm-box {
-		background-color: #eee;
-}
-
 .rhythm-box-row {
 		float: left;
 }
-
-/*
-.rhythm-box:hover {
-		background-color: #bbb;
-}
-*/
