@@ -23,7 +23,4 @@
 
 (comment
   (main)
-  (events/fire-event! :event-fired {:type :note
-                                    :sound-type :sin
-                                    :args [660 0.2]})
 )

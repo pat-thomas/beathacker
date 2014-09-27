@@ -1,6 +1,7 @@
 (ns beathacker.app.components.rhythm-box
   (:require [om.dom                 :as dom :include-macros true]
             [om.core                :as om  :include-macros true]
+            [beathacker.app.api     :as api]
             [beathacker.app.helpers :as helpers])
   (:require-macros [om-utils.core :refer [defcomponent]]))
 
@@ -23,6 +24,12 @@
             (dom/select #js {:onChange (fn [e]
                                          (om/update! data [:selected-option :rows] (helpers/evt->value e)))}
                         (mapv build-option (map str (range 1 9)))))))
+
+(defcomponent send-to-server-button
+  (render
+   (dom/button #js {:id "send-to-server-button"
+                    :onClick #(-> data deref :clicked api/send-rhythm-to-server)}
+               "Play pattern.")))
 
 (defn classname-for-rhythm-box
   [data opts]
@@ -63,6 +70,7 @@
 (defcomponent rhythm-box-container
   (render
    (dom/div #js {:id "rhythm-box-container"}
+            (om/build send-to-server-button data)
             (dom/div #js {:id "select-list-container"}
                      (om/build row-select-list data)
                      (om/build column-select-list data))
