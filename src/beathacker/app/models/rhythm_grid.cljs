@@ -6,7 +6,7 @@
   [clicked-data]
   (reduce (fn [acc [k v]]
             (if v
-              (let [[column row] k]
+              (let [[row column] k]
                 (conj acc (make-map row column)))
               acc))
           []

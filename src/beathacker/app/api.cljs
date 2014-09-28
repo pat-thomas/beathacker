@@ -5,7 +5,7 @@
 (defn send-rhythm-to-server
   [data]
   (let [base-data {:rhythm-data (rhythm-grid/clicked-data->rhythm-data (:clicked data))
-                   :num-columns (js/parseInt (get-in data [:selected-option :rows]))}
+                   :num-columns (js/parseInt (get-in data [:selected-option :columns]))}
         req-data  (if-let [repetitions (js/parseInt (get-in data [:selected-option :repetitions]))]
                     (assoc base-data :repetitions repetitions)
                     base-data)]
