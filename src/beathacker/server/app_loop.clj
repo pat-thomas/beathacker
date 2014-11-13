@@ -4,7 +4,7 @@
             [clj-utils.maps                        :refer [make-map]]
             [beathacker.server.util                :refer [defchan]]))
 
-(def metro (overtone/metronome 120))
+(def metro (overtone/metronome 150))
 (def event-queue (atom []))
 
 (defn fire-event!
@@ -62,8 +62,6 @@
     (apply-by (nome (inc beat)) #'run-app-loop! nome handler [])))
 
 (comment
-  (run-app-loop! metro
-                 handler
-                 event-channel)
+  (run-app-loop! metro handler)
   (fire-event! :kick)
   )
