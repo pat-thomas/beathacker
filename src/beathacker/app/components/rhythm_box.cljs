@@ -9,13 +9,21 @@
   [value]
   (dom/option #js {:value value} value))
 
+(defn build-numbered-select-list
+  [upper-limit]
+  (->> upper-limit
+       inc
+       (range 1)
+       (map str)
+       (mapv build-option)))
+
 (defcomponent column-select-list
   (render
    (dom/div nil
             "Columns"
             (dom/select #js {:onChange (fn [e]
                                          (om/update! data [:selected-option :columns] (helpers/evt->value e)))}
-                        (mapv build-option (map str (range 1 9)))))))
+                        (build-numbered-select-list 8)))))
 
 (defcomponent row-select-list
   (render
@@ -23,7 +31,7 @@
             "Rows"
             (dom/select #js {:onChange (fn [e]
                                          (om/update! data [:selected-option :rows] (helpers/evt->value e)))}
-                        (mapv build-option (map str (range 1 9)))))))
+                        (build-numbered-select-list 8)))))
 
 (defcomponent repetitions-select-list
   (render
